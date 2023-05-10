@@ -1,95 +1,64 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import Flex from "@/components/Flex";
+import styles from "./page.module.css";
+import SearchInput from "@/components/Input/SearchInput";
+import FilterSelect from "@/components/Select/FilterSelect";
+import Countries from "@/components/List/Countries";
+import CountriesData from "../../data.json";
+import Country from "@/components/Country";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const [countries, setCountries] = useState<typeof CountriesData>([
+    ...CountriesData,
+  ]);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const options = ["Africa", "America", "Asia", "Europe", "Oceania"];
+
+  const filterByRegion = (value: string) => {
+    let data = CountriesData;
+
+    //
+    let returnedData: typeof CountriesData = data.filter(
+      (k) => k.region === value
+    );
+    //
+    setCountries([...returnedData]);
+  };
+
+  const handleSearch = (value: string) => {
+    let data = CountriesData;
+
+    //
+    let query = data.filter((k) => k.name === value.toLocaleLowerCase());
+    //
+
+    if (query.length === 0) {
+      return;
+    } else {
+      setCountries([...query]);
+    }
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <main className={styles.countries}>
+      <Flex>
+        <SearchInput handleSearch={(value) => handleSearch(value)} />
+        <FilterSelect
+          options={options}
+          handleSelect={(value) => filterByRegion(value)}
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      </Flex>
+      <Countries>
+        {countries.map((country, index) => {
+          return (
+            <Link key={`${index}_${country}`} href={`/country/${country.name}`}>
+              <Country country={country} />
+            </Link>
+          );
+        })}
+      </Countries>
     </main>
-  )
+  );
 }
