@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navigation/Navbar";
 import "./globals.css";
-import Script from "next/dist/client/script";
+import { ThemeProvider } from "@/context/ThemeContext";
+import Footer from "@/components/Navigation/Footer";
 
 export const metadata = {
   title: "Countries-Api",
@@ -14,10 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      {/**body tag is in the theme provider component */}
+      <ThemeProvider>
         <Navbar />
         {children}
-      </body>
+      </ThemeProvider>
     </html>
   );
 }
