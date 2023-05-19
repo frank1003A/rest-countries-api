@@ -1,13 +1,14 @@
 import React from 'react'
 import styles from "@/app/page.module.css"
+import { motion, MotionProps } from 'framer-motion'
 
-interface CountriesProps extends React.ComponentPropsWithoutRef<'div'>{}
+interface CountriesProps extends MotionProps{}
 
 const Countries = ({ children, ...rest }: CountriesProps) => {
   return (
-    <div className={styles.list} {...rest}>
+    <motion.div className={styles.list} {...rest}>
         {children}
-    </div>
+    </motion.div>
   )
 }
 

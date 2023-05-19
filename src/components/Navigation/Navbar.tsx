@@ -1,20 +1,19 @@
 "use client"
 
-import React from "react";
+import { ThemeContext } from "@/context/ThemeContext";
+import Link from "next/link";
+import { useContext } from "react";
 import styles from "../../app/page.module.css";
 import ModeButton from "../Button/ModeButton";
-import { useState } from "react";
-
-interface THEME {
-  theme: "light" | "dark";
-}
 
 const Navbar = () => {
-  const [dataTheme, setDataTheme] = useState<THEME["theme"]>("light");
+  const { theme, toggleTheme } = useContext(ThemeContext);
   return (
-    <div className={styles["navbar"]} data-theme={dataTheme}>
+    <div className={styles.navbar}>
+      <Link href={"/"}>
       <span>Where in the world?</span>
-      <ModeButton theme={dataTheme} onclick={() => setDataTheme("dark")} />
+      </Link>
+      <ModeButton theme={theme} onclick={toggleTheme} />
     </div>
   );
 };

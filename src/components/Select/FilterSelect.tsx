@@ -1,32 +1,36 @@
-import React, { useRef, useState } from "react";
 import styles from "@/app/page.module.css";
-import { faArrowDown} from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowAltCircleDown } from "@fortawesome/free-regular-svg-icons";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useRef, useState } from "react";
+
+interface SelectOption {
+  value: string;
+  label: string;
+}
 
 interface FilterSelectProps extends React.ComponentPropsWithoutRef<"div"> {
   options: string[];
-  handleSelect?: (value: string) => void;
+  handleSelect: (value: string) => void;
 }
 
 const FilterSelect = ({ options, handleSelect }: FilterSelectProps) => {
   // HOOKS
-  const [selected, setSelected] = useState<(typeof options)[0]>();
+  const [selected, setSelected] = useState<string>("");
   const [toggle, setToggle] = useState<boolean>(false);
 
   // TOGGLE FUNCTIONS
   const handleToggle = () => setToggle(!toggle);
 
   const handleOptionSelect = (value: string) => {
-    handleSelect && handleSelect(value);
     setSelected(value);
+    handleSelect(value)
+    handleToggle()
   };
 
   const handleClickOutside = () => {
-    setToggle(false)
-  }
-  // TOGGLE FUNCTIONS END
+    setToggle(false);
+  };
 
   // REF
   const selRef = useRef<HTMLDivElement>(null);
@@ -34,31 +38,33 @@ const FilterSelect = ({ options, handleSelect }: FilterSelectProps) => {
   // hook to handle when user clicks outside the select
   useOnClickOutside(selRef, handleClickOutside);
 
+  const selectOptions: SelectOption[] = options.map((option) => ({
+    value: option,
+    label: option,
+  }));
+
+  const optionList = selectOptions.map((option) => (
+    <option
+      className={styles.option}
+      key={option.value}
+      value={option.value}
+      onClick={() => handleOptionSelect(option.value)}
+    >
+      {option.label}
+    </option>
+  ))
+
   return (
-    <div className={styles.select}>
-      {/** SELECTED */}
-      <div className={styles.selected} ref={selRef} onClick={handleToggle}>
-       <div>
-       {selected ? selected : "Filter by region"}
-       </div>
-       <div>
-        <FontAwesomeIcon icon={faArrowDown}/>
-       </div>
+    <div className={styles.select} ref={selRef}>
+      <div className={styles.selected} onClick={handleToggle}>
+        <div>{selected ? selected : "All"}</div>
+        <div>
+          <FontAwesomeIcon icon={toggle ? faAngleUp : faAngleDown} />
+        </div>
       </div>
 
-      {/** OPTIONS */}
       <div className={toggle ? styles.options : styles["no-display"]}>
-        {options.map((o, i) => {
-          return (
-            <span
-              onClick={() => handleOptionSelect(o)}
-              className={styles.option}
-              key={`${o}_${i}`}
-            >
-              {o}
-            </span>
-          );
-        })}
+        {optionList}
       </div>
     </div>
   );
