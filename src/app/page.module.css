@@ -168,6 +168,10 @@
   font-weight: 700;
   font-size: large;
   margin-bottom: .5rem;
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .country-card .btm p  {
@@ -261,6 +265,7 @@
   justify-content: space-between;
   min-height: 100vh;
   align-items: flex-start;
+  overflow-x: hidden;
 }
 
 .main-content > div {
