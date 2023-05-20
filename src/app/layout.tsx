@@ -1,11 +1,13 @@
 import Navbar from "@/components/Navigation/Navbar";
-import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
-import Footer from "@/components/Navigation/Footer";
+import "./globals.css";
 
 export const metadata = {
   title: "Countries-Api",
   description: "Project Solution for Frontend Mentor Challenge",
+  icons: {
+    icon: "./favicon.ico"
+  }
 };
 
 export default function RootLayout({

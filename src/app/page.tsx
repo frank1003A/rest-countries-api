@@ -11,7 +11,7 @@ import styles from "./page.module.css";
 
 export default function Home() {
   // CUSTOM SELECT OPTIONS
-  const options = ["All", "Africa", "America", "Asia", "Europe", "Oceania"];
+  const options = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania"];
 
   const router = useRouter();
 
@@ -115,6 +115,7 @@ export default function Home() {
                   <Country
                     key={index}
                     country={country}
+                    layout
                     onNavigate={() =>
                       router.push(
                         `/country/${removeSpace(country.name.common)}`

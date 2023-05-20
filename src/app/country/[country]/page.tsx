@@ -71,15 +71,14 @@ const Page = async ({ params }: { params: { country: string } }) => {
 
   const getLocalData = (c: CountryProps, key: string) => {
     let res = "";
-    let localCountry = LocalData;
-    localCountry.filter((country) => {
+    LocalData.filter((country) => {
       if (
         key === "currency" &&
         country.name === c.name.common &&
         country.currencies !== undefined
       ) {
         res = country.currencies.map((c) => c.name).join(", ");
-      } else if (key === "languages") {
+      } else if (key === "languages" && country.name === c.name.common ) {
         res = country.languages.map((c) => c.name).join(", ");
       }
     });
@@ -100,35 +99,35 @@ const Page = async ({ params }: { params: { country: string } }) => {
             <Image
               src={country[0].flags.svg}
               alt="country_flag"
-              fill={true}
+              fill
               className={styles.cimg}
             />
           </div>
           <div className={styles.description}>
             <h1>{country[0].name.common}</h1>
             <SimpleGrid row={5} column={2} columnGap={10} rowGap={5}>
-              <p>
+              <p title={country[0].name.common}>
                 Native Name: <span>{country[0].name.common}</span>
               </p>
-              <p>
+              <p title={numberWithCommas(country[0].population)}>
                 Population: <span>{numberWithCommas(country[0].population)}</span>
               </p>
-              <p>
+              <p title={country[0].region}>
                 Region: <span>{country[0].region}</span>
               </p>
-              <p>
+              <p title={country[0].subregion}>
                 Sub Region: <span>{country[0].subregion}</span>
               </p>
-              <p>
+              <p title={country[0].capital}>
                 Capital: <span>{country[0].capital}</span>
               </p>
-              <p>
+              <p title={country[0].tld.join("")}>
                 Top Level Domain: <span>{country[0].tld.join("")}</span>
               </p>
-              <p>
+              <p title={getLocalData(country[0], "currency")}>
                 Currencies: <span>{getLocalData(country[0], "currency")}</span>
               </p>
-              <p>
+              <p title={getLocalData(country[0], "languages")}>
                 Languages: <span>{getLocalData(country[0], "languages")}</span>
               </p>
             </SimpleGrid>

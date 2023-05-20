@@ -319,6 +319,10 @@
   margin-left: .5rem;
   color: var(--sec-text);
   font-weight: 400;
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .flag .next-img {
@@ -353,7 +357,7 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  border: 3px dotted #FF3D00;
+  border: 3px dotted rgb(72, 72, 185);
   border-style: solid solid dotted;
   width: 24px;
   height: 24px;
