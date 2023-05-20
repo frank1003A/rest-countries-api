@@ -33,7 +33,7 @@ const Country = ({ country, onNavigate, ...rest }: Props) => {
         }
       </div>
       <div className={styles.btm}>
-        <h4>{country.name.common}</h4>
+        <h4 title={country.name.common}>{country.name.common}</h4>
         <p>
           Population: <span>{numberWithCommas(country.population)}</span>
         </p>
