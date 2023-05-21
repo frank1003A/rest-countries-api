@@ -437,6 +437,12 @@
     display: flex;
     gap: .5rem;
   }
+
+  .main-content > div .flag img.cimg {
+    position: relative;
+    max-width: 100%;
+    height: 100%;
+  }
 }
 
 @media only screen and (max-width: 600px) {

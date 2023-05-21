@@ -99,7 +99,8 @@ const Page = async ({ params }: { params: { country: string } }) => {
             <Image
               src={country[0].flags.svg}
               alt="country_flag"
-              fill
+              height={340}
+              width={550}
               className={styles.cimg}
             />
           </div>
